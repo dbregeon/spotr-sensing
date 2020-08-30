@@ -1,8 +1,14 @@
 pub trait Sensor: std::any::Any + Send+ Sync {
-    type Item;
-    fn sample(&self) -> Result<Vec<Self::Item>, std::io::Error>;
+    fn sample(&self) -> Result<Vec<SensorOutput>, std::io::Error>;
 }
 
-pub struct Process {
-    pub pid: u32
+#[derive(Clone, Debug)]
+pub enum SensorOutput {
+    Process {
+        pid: u32
+    }
+}
+
+unsafe impl Send for SensorOutput {
+
 }
