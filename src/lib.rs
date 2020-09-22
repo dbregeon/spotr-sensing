@@ -6,6 +6,11 @@ pub trait Sensor: std::any::Any + Send+ Sync {
 pub enum SensorOutput {
     Process {
         pid: u32
+    },
+    MountPoint {
+        name: String,
+        size: u64,
+        free: u64
     }
 }
 
