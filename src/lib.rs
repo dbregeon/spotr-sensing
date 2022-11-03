@@ -24,18 +24,18 @@ pub struct Stat {
     /// See [state()](#method.state) to get the process state as an enum.
     pub state: char,
     /// The PID of the parent of this process.
-    pub ppid: i32,
+    pub ppid: u32,
     /// The process group ID of the process.
-    pub pgrp: i32,
+    pub pgrp: u32,
     /// The session ID of the process.
-    pub session: i32,
+    pub session: u32,
     /// The controlling terminal of the process.
     ///
     /// The minor device number is contained in the combination of bits 31 to 20 and  7  to  0;
     /// the major device number is in bits 15 to 8.
     ///
     /// See [tty_nr()](#method.tty_nr) to get this value decoded into a (major, minor) tuple
-    pub tty_nr: i32,
+    pub tty_nr: u32,
     /// The ID of the foreground process group of the controlling terminal of the process.
     pub tpgid: i32,
     /// The kernel flags  word of the process.
@@ -44,7 +44,7 @@ pub struct Stat {
     /// [`include/linux/sched.h`](https://github.com/torvalds/linux/blob/master/include/linux/sched.h).
     ///
     /// See [flags()](#method.flags) to get a [`StatFlags`](struct.StatFlags.html) bitfield object.
-    pub flags: u32,
+    pub flags: i32,
     /// The number of minor faults the process has made which have not required loading a memory
     /// page from disk.
     pub minflt: u64,
@@ -70,11 +70,11 @@ pub struct Stat {
     /// user  mode,  measured  in clock ticks (divide by [`ticks_per_second()`](crate::ticks_per_second)).
     ///
     /// This includes guest time, cguest_time (time spent running a virtual CPU, see below).
-    pub cutime: i64,
+    pub cutime: u64,
 
     /// Amount of time that this process's waited-for  children  have  been  scheduled  in  kernel
     /// mode,  measured  in  clock  ticks  (divide  by [`ticks_per_second()`](crate::ticks_per_second)).
-    pub cstime: i64,
+    pub cstime: u64,
     /// For processes running a real-time scheduling policy (policy below; see sched_setscheduler(2)),
     /// this is the negated scheduling priority, minus one;
     ///
@@ -91,12 +91,12 @@ pub struct Stat {
     pub nice: i64,
     /// Number  of  threads in this process (since Linux 2.6).  Before kernel 2.6, this field was
     /// hard coded to 0 as a placeholder for an earlier removed field.
-    pub num_threads: i64,
+    pub num_threads: u64,
     /// The time in jiffies before the next SIGALRM is sent to the process due to an interval
     /// timer.
     ///
     /// Since kernel 2.6.17, this  field is no longer maintained, and is hard coded as 0.
-    pub itrealvalue: i64,
+    pub itrealvalue: u64,
     /// The time the process started after system boot.
     ///
     /// In kernels before Linux 2.6, this value was expressed in  jiffies.  Since  Linux 2.6, the
@@ -109,7 +109,7 @@ pub struct Stat {
     ///
     /// This is just the pages which count toward text,  data,  or stack space.
     /// This does not include pages which have not been demand-loaded in, or which are swapped out.
-    pub rss: i64,
+    pub rss: u64,
     /// Current soft limit in bytes on the rss of the process; see the description of RLIMIT_RSS in
     /// getrlimit(2).
     pub rsslim: u64,
@@ -151,7 +151,7 @@ pub struct Stat {
     /// CPU number last executed on.
     ///
     /// (since Linux 2.2.8)
-    pub processor: Option<i32>,
+    pub processor: Option<u32>,
     /// Real-time scheduling priority
     ///
     ///  Real-time scheduling priority, a number in the range 1 to 99 for processes scheduled under a real-time policy, or 0, for non-real-time processes
