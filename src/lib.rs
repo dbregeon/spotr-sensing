@@ -1,13 +1,43 @@
-pub trait Sensor: std::any::Any + Send + Sync {
+pub trait Sensor: std::any::Any {
     fn sample(&mut self) -> Result<Vec<SensorOutput>, std::io::Error>;
 }
 
 #[derive(Clone, Debug)]
 pub enum SensorOutput {
     /// Process sensing output
-    Process { pid: u32, stat: ProcessStats },
+    Process {
+        pid: u32,
+        stat: ProcessStats,
+    },
     /// Mount point sensing output
-    MountPoint { name: String, size: u64, free: u64 },
+    MountPoint {
+        name: String,
+        size: u64,
+        free: u64,
+    },
+    JavaVirtualMachine {
+        pid: u32,
+        perf_data: JvmPerfData,
+    },
+}
+
+#[derive(Clone, Debug)]
+pub enum JvmPerfData {
+    /// Reports an error from the sensor with a description.
+    Error(String),
+    /// No HostSpotData found for a previously seen process.
+    /// first element is the pid, second element is the comm previously reported.
+    Closed(u32, String),
+    /// Contents of the Stat
+    HostSpotData(HotSpotData),
+}
+
+#[derive(Clone, Debug)]
+pub struct HotSpotData {
+    pub command: String,
+    pub gc_policy_name: String,
+    pub max_heap_size: i64,
+    pub heap_used: i64,
 }
 
 #[derive(Clone, Debug)]
